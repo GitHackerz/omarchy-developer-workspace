@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "developer.workspace",
+  "name": "Developer Workspace",
+  "version": "0.1.0",
+  "author": "GitHackerz",
+  "description": "Project launcher, AI CLI picker, and local development service controls",
+  "kinds": [
+    "overlay"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "overlay": "Developer.qml"
+  }
+}

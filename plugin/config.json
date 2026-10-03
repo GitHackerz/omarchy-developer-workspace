@@ -1,0 +1,8 @@
+{
+  "projectRoots": [
+    "~/Projects",
+    "~/projects",
+    "~/code"
+  ],
+  "maxDepth": 4
+}
