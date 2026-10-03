@@ -1,0 +1,20 @@
+{
+  "projects": [
+    {"kind":"project","name":"atlas-saas","detail":"Projects/atlas-saas","path":"/home/demo/Projects/atlas-saas"},
+    {"kind":"project","name":"billing-api","detail":"Projects/billing-api","path":"/home/demo/Projects/billing-api"},
+    {"kind":"project","name":"customer-portal","detail":"Projects/customer-portal","path":"/home/demo/Projects/customer-portal"},
+    {"kind":"project","name":"event-workers","detail":"Projects/event-workers","path":"/home/demo/Projects/event-workers"},
+    {"kind":"project","name":"platform-infra","detail":"Projects/platform-infra","path":"/home/demo/Projects/platform-infra"},
+    {"kind":"project","name":"team-dashboard","detail":"Projects/team-dashboard","path":"/home/demo/Projects/team-dashboard"}
+  ],
+  "services": [
+    {"kind":"container","name":"atlas-postgres","id":"111111111111","state":"running","image":"postgres:17-alpine","status":"Up 2 hours (healthy)","ports":"127.0.0.1:5432 → 5432/tcp","detail":"Up 2 hours (healthy) · 127.0.0.1:5432 → 5432/tcp"},
+    {"kind":"container","name":"atlas-redis","id":"222222222222","state":"running","image":"redis:7-alpine","status":"Up 2 hours (healthy)","ports":"127.0.0.1:6379 → 6379/tcp","detail":"Up 2 hours (healthy) · 127.0.0.1:6379 → 6379/tcp"},
+    {"kind":"container","name":"billing-worker","id":"333333333333","state":"exited","image":"billing-worker:dev","status":"Exited (0) 10 minutes ago","ports":"","detail":"Exited (0) 10 minutes ago · No published ports"},
+    {"kind":"port","name":"node · :3000","detail":"127.0.0.1:3000 · /home/demo/Projects/customer-portal","port":3000,"pid":"12345","identity":"100","canStop":true,"state":"listening","url":"http://localhost:3000"},
+    {"kind":"port","name":"uvicorn · :8000","detail":"127.0.0.1:8000 · /home/demo/Projects/billing-api","port":8000,"pid":"12346","identity":"101","canStop":true,"state":"listening","url":"http://localhost:8000"}
+  ],
+  "agents":[{"name":"Codex CLI","id":"codex","available":true},{"name":"Antigravity CLI","id":"agy","available":true},{"name":"Claude Code","id":"claude","available":true}],
+  "dockerAvailable":true,
+  "updated":"14:32:08"
+}

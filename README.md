@@ -15,6 +15,22 @@ The panel uses a searchable list and detail view, status indicators, action
 feedback, and confirmation dialogs for disruptive actions. Services refresh every
 five seconds while visible, pausing during actions and confirmations.
 
+## Screenshots
+
+Actual native panel captures using **synthetic demo data**. Project names,
+container names, paths, process IDs, and timestamps are examples; no private
+workspace data is shown.
+
+### Projects and AI launcher
+
+![Project switcher with demo projects and the AI CLI launcher](docs/images/projects.png)
+
+### Development services
+
+![Service dashboard with demo containers, ports, filters, and controls](docs/images/services.png)
+
+The demo values used for these captures are in [docs/demo-data.json](docs/demo-data.json).
+
 ## Requirements
 
 - Linux with Omarchy's **Quickshell-based shell** and `omarchy plugin` commands.
