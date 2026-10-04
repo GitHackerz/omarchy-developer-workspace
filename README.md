@@ -13,7 +13,8 @@ open likely HTTP services, or terminate project-owned processes.
 
 The panel uses a searchable list and detail view, status indicators, action
 feedback, and confirmation dialogs for disruptive actions. Services refresh every
-five seconds while visible, pausing during actions and confirmations.
+five seconds while visible, pausing during actions and confirmations. Updates
+keep the selected item, list scroll, and keyboard focus in place.
 
 ## Screenshots
 
@@ -142,6 +143,7 @@ Confirmation dialogs require an explicit button click; Escape cancels them.
 
 ```bash
 python3 -m unittest discover -s tests -v
+node --test tests/list-sync.test.cjs
 bash -n install.sh
 ```
 

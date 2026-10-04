@@ -13,7 +13,7 @@ if [[ -d "$target" ]]; then
   echo "Previous version backed up to $backup"
 fi
 mkdir -p "$target"
-for name in Developer.qml backend.py manifest.json; do
+for name in Developer.qml ListSync.js backend.py manifest.json; do
   install -m 644 "$source_dir/plugin/$name" "$target/$name"
 done
 # Retain the user's project roots on updates.

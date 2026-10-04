@@ -11,4 +11,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 -m unittest discover -s tests -v
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/list-sync.test.cjs
       - run: bash -n install.sh

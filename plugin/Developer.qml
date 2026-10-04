@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import qs.Commons
+import "ListSync.js" as ListSync
 
 Item {
  id: root
@@ -15,6 +16,7 @@ Item {
  property string mode: "projects"
  property string filter: "all"
  property string selectedKey: ""
+ property bool syncingList: false
  property var pending: null
  property string notice: ""
  property bool failed: false
@@ -36,7 +38,23 @@ Item {
   for (var i=0;i<rows.length;i++) if (key(rows[i]) === selectedKey) return rows[i]
   return rows.length ? rows[0] : null
  }
- function key(r) { return r.path || r.id || (r.pid + ":" + r.detail) }
+ function key(r) { return ListSync.rowKey(r) }
+ function syncRows() {
+  if (!list) return
+  var savedKey = root.selectedKey
+  var savedIndex = list.currentIndex
+  var savedScroll = list.contentY
+  root.syncingList = true
+  try {
+   var index = ListSync.sync(listRows, root.rows, savedKey, savedIndex)
+   list.currentIndex = index
+   root.selectedKey = index >= 0 ? ListSync.rowKey(root.rows[index]) : ""
+   list.contentY = savedScroll
+  } finally { root.syncingList = false }
+ }
+ onRowsChanged: syncRows()
+ Component.onCompleted: syncRows()
+ ListModel { id: listRows; dynamicRoles: true }
  function chooseMode(next) { mode=next; filter="all"; selectedKey=""; search.text=""; notice="" }
  function open(payload) {
   var data={};try { data=JSON.parse(payload || "{}") } catch(e) {}
@@ -47,7 +65,7 @@ Item {
  function close() { root.opened=false; pending=null }
  function dismiss() { close(); if(shell) shell.hide(manifest ? manifest.id : "developer.workspace") }
  function toggle(payload) { if(opened) dismiss(); else open(payload) }
- function status() { return JSON.stringify({opened:opened,mode:mode,rows:rows.length}) }
+ function status() { return JSON.stringify({opened:opened,mode:mode,rows:rows.length,selectedKey:selectedKey,currentIndex:list.currentIndex,listFocused:list.activeFocus}) }
  function refresh() { if(!scan.running && !pending && !action.running) scan.running=true }
  function act(kind,value) {
   if(action.running) return
@@ -150,13 +168,14 @@ Item {
      Layout.fillWidth:true;Layout.fillHeight:true;spacing:18
      ListView {
       id:list;Layout.preferredWidth:Math.round(card.width*0.43);Layout.fillHeight:true
-      clip:true;spacing:7;model:root.rows;currentIndex:-1
+      clip:true;spacing:7;model:listRows;currentIndex:-1
       ScrollBar.vertical:ScrollBar {}
       Keys.onEscapePressed:root.dismiss()
-      onCurrentIndexChanged: {if(currentIndex>=0 && currentIndex<root.rows.length) root.selectedKey=root.key(root.rows[currentIndex])}
+      onCurrentIndexChanged: {if(!root.syncingList && currentIndex>=0 && currentIndex<root.rows.length) root.selectedKey=root.key(root.rows[currentIndex])}
       Keys.onReturnPressed: {if(root.selected && root.mode === "projects") root.act("project",root.selected.path)}
       delegate:Rectangle {
-       required property var modelData
+       required property var rowData
+       readonly property var modelData: rowData
        required property int index
        readonly property bool chosen:root.selected && root.key(root.selected) === root.key(modelData)
        width:list.width;height:72;radius:10
